@@ -66,8 +66,6 @@ const HomeScreen = ({navigation}) => {
 
             </ScrollView>
 
-            {/*element z listą filmów -> w propsach będzie obiekt pobrany z api*/}
-
             {/*<Button title="Single film" onPress={() => navigation.navigate('SingleMovie', {id: 123})}/>*/}
         </View>
     );

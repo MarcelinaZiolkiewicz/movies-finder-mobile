@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet,Text, View} from "react-native";
-
+import {Button} from "react-native";
 import SingleMovie from "./SingleMovie";
 
 const MoviesList = ({movies}) => {
@@ -11,19 +11,30 @@ const MoviesList = ({movies}) => {
 
     return (
         <View style={styles.container}>
-            <Text>Wyświetlono filmów: {movies.length}</Text>
+            <Text style={styles.label}>Wyświetlono filmów: {movies.length}</Text>
             {moviesElements}
+
+            <View style={styles.loadMore}>
+                <Button title="Wczytaj więcej" color="#686de0" onPress={() => alert('Dwa')}/>
+            </View>
+
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         justifyContent: 'center',
     },
+    loadMore: {
+        width: 300,
+    },
+    label: {
+        width: 300
+    }
+
 });
 
 export default MoviesList;
