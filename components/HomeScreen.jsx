@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View} from "react-native";
+import React, {createRef, useEffect, useState} from 'react';
+import {Button, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Input} from "react-native-elements";
+
 
 import axios from "axios";
 
 const HomeScreen = ({navigation}) => {
 
     const [loadedData, setLoadedData] = useState(null);
-    const [filmToFind, setFilmToFind] = useState('fight');
+    const [filmToFind, setFilmToFind] = useState('');
     const [language, setLanguage] = useState('pl-PL');
     const [movieId, setMovieId] = useState( null);
     const [page, setPage] = useState( 1);
@@ -16,20 +18,46 @@ const HomeScreen = ({navigation}) => {
     const SEARCH_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=${language}&query=${filmToFind}&page=${page}&include_adult=false`;
     const SINGLE_MOVIE_URL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=${language}`;
 
+    const input = createRef();
+
     // console.log(SEARCH_URL);
     // console.log(loadedData);
 
+    const searchFilm = () => {
+        if (filmToFind) {
+            axios.get(SEARCH_URL)
+                .then((res) => setLoadedData(res.data))
+                .catch((err) => console.error(err))
+                .finally(() => setLoading(false))
+        }
+    }
+
+    const handleSubmit = () => {
+        console.log(filmToFind);
+    }
+
     useEffect(() => {
-        axios.get(SEARCH_URL)
-            .then((res) => setLoadedData(res.data))
-            .catch((err) => console.error(err))
-            .finally(() => setLoading(false))
+        input.current.focus();
     }, [])
 
     return (
         <View style={styles.container}>
-            {isLoading ? <Text>ładowanie w toku</Text> : <Text>Znaleziono {loadedData.total_results} wyników dla hasła '{filmToFind}'</Text>}
-            {/*input tu będzie*/}
+
+            {isLoading ? <Text style={styles.headerText}>Znajdź film w bazie ponad 662 588 filmów!</Text> : <Text style={styles.headerText}>Znaleziono {loadedData.total_results} wyników dla hasła: {filmToFind}</Text>}
+
+            <ScrollView>
+                <View style={styles.inputBox}>
+                    <Input
+                        ref={input}
+                        placeholder="Szukaj filmu"
+                        onChangeText={value => {
+                            setFilmToFind(value);
+                            searchFilm();
+                        }}
+                        onSubmitEditing={searchFilm}
+                    />
+                </View>
+            </ScrollView>
 
             {/*element z listą filmów -> w propsach będzie obiekt pobrany z api*/}
 
@@ -45,6 +73,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    inputBox: {
+        flexDirection: 'row',
+        padding: 10
+    },
+    headerText: {
+        padding: 10
+    }
 });
 
 export default HomeScreen;
