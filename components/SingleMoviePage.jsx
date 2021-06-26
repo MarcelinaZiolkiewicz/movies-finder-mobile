@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet,Text, View, ScrollView} from "react-native";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 
 import axios from "axios";
 
@@ -9,6 +9,7 @@ import MovieDetails from "./MovieDetails";
 const SingleMoviePage = ({ route }) => {
 
     const { id } = route.params;
+
     const [language, setLanguage] = useState('pl-PL');
     const [movie, setMovie] = useState(null);
     const [isLoading, setLoading] = useState(true);
@@ -33,11 +34,10 @@ const SingleMoviePage = ({ route }) => {
             .finally(() => setLoading(false))
     }, [])
 
-
     return (
         <View style={styles.container}>
             {!isLoading && <View>
-                 <Image source={{uri: backgroundPath()}} style={styles.background} resizeMode="cover"/>
+                 <Image source={{uri: backgroundPath()}} style={styles.background} resizeMode="cover" />
                  <ScrollView style={styles.wrapper}>
                      <View>
                          <Text style={styles.title}>{movie.title} | {releaseDate()}</Text>
@@ -52,7 +52,7 @@ const SingleMoviePage = ({ route }) => {
             </View>}
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {

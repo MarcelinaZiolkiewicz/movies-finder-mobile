@@ -1,6 +1,6 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from "react-native";
-import {Button, Card} from "react-native-elements";
+import { ActivityIndicator, StyleSheet, Text } from "react-native";
+import { Button, Card } from "react-native-elements";
 
 
 const SingleMovie = ({movie, goToMovie}) => {

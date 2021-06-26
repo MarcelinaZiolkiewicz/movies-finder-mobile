@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet,Text, View} from "react-native";
+import { StyleSheet,Text, View } from "react-native";
 
 const MovieDetails = ({ genres, prodCountries, rate }) => {
 
@@ -10,7 +10,6 @@ const MovieDetails = ({ genres, prodCountries, rate }) => {
     const countries = prodCountries.map(item => {
         return <Text key={item.id} style={{marginLeft: 5, fontSize: 16}}>{item.name},</Text>
     })
-
 
     return (
         <View style={styles.container}>
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold"
     }
-
 });
 
 export default MovieDetails;

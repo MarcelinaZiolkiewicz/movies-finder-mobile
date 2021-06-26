@@ -1,9 +1,9 @@
-import React, {createRef, useEffect, useState} from 'react';
-import {Button, ScrollView, StyleSheet, Text, View} from "react-native";
-import {Input} from "react-native-elements";
-
+import React, { createRef, useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Input } from "react-native-elements";
 
 import axios from "axios";
+
 import FilmsList from "./FilmsList";
 
 const HomeScreen = ({navigation}) => {
@@ -12,26 +12,30 @@ const HomeScreen = ({navigation}) => {
     const [moviesList, setMoviesList] = useState(null);
     const [filmToFind, setFilmToFind] = useState('');
     const [language, setLanguage] = useState('pl-PL');
-    const [page, setPage] = useState( 1);
+    const [pages, setPages] = useState( []);
     const [isLoading, setLoading] = useState(true);
 
     const API_KEY = '6867970f578bc54a2df62f33811ee300';
-    const SEARCH_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=${language}&query=${filmToFind}&page=${page}&include_adult=false`;
+    const SEARCH_URL = (page) => `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=${language}&query=${filmToFind}&page=${page}&include_adult=false`;
 
     const input = createRef();
 
-    const searchFilm = () => {
-        if (filmToFind) {
-            axios.get(SEARCH_URL)
-                .then((res) => {
-                    setLoadedData(res.data);
-                    setMoviesList(res.data.results);
-                })
-                .catch((err) => console.error(err))
-                .finally(() => setLoading(false))
-        }
+    const getData = page => {
+        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=${language}&query=${filmToFind}&page=${page}&include_adult=false`)
+            .then((res) => {
+                setLoadedData(res.data);
+                setMoviesList(res.data.results);
+                setPages([res.data.page, res.data.total_pages]);
+            })
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false))
     }
 
+    const searchFilm = () => {
+        if (filmToFind) {
+            getData(1)
+        }
+    }
 
     const goToMoviePage = id => {
         navigation.navigate('Film', {id: id})
@@ -44,21 +48,37 @@ const HomeScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
 
-            {isLoading ? <Text style={styles.headerText}>Znajdź film w bazie ponad 662 588 filmów!</Text> : <Text style={styles.headerText}>Znaleziono {loadedData.total_results} wyników dla hasła: {filmToFind}</Text>}
+            {isLoading ?
+                <Text style={styles.headerText}>
+                    Znajdź film w bazie ponad 662 588 filmów!
+                </Text>
+                :
+                <Text style={styles.headerText}>
+                    Znaleziono {loadedData.total_results} wyników dla hasła: {filmToFind}
+                </Text>
+            }
+
+            <View style={styles.inputBox}>
+                <Input
+                    ref={input}
+                    placeholder="Szukaj filmu"
+                    onChangeText={value => {
+                        setFilmToFind(value);
+                    }}
+                    onSubmitEditing={searchFilm}
+                />
+            </View>
 
             <ScrollView>
-                <View style={styles.inputBox}>
-                    <Input
-                        ref={input}
-                        placeholder="Szukaj filmu"
-                        onChangeText={value => {
-                            setFilmToFind(value);
-                        }}
-                        onSubmitEditing={searchFilm}
-                    />
-                </View>
 
-                {!isLoading && <FilmsList movies={moviesList} goToMovie={goToMoviePage}/>}
+                {!isLoading &&
+                    <FilmsList
+                        movies={moviesList}
+                        goToMovie={goToMoviePage}
+                        previousPage={() => getData(loadedData.page - 1)}
+                        nextPage={() => getData(loadedData.page + 1)}
+                        pages={pages}
+                    />}
 
             </ScrollView>
         </View>
