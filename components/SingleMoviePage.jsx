@@ -1,10 +1,12 @@
 import React from 'react';
 import {StyleSheet,Text, View} from "react-native";
 
-const SingleMoviePage = () => {
+const SingleMoviePage = ({ route, navigation}) => {
+    const { id } = route.params;
+
     return (
         <View style={styles.container}>
-            <Text>SingleMoviePage</Text>
+            <Text>SingleMoviePage - {id}</Text>
         </View>
     );
 }
