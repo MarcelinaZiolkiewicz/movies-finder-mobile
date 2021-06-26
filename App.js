@@ -11,9 +11,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeScreen">
-        <Stack.Screen name="SingleMovie" component={SingleMoviePage}/>
-        <Stack.Screen name="HomeScreen" component={HomeScreen}/>
+      <Stack.Navigator initialRouteName="Szukaj">
+        <Stack.Screen name="Film" component={SingleMoviePage}/>
+        <Stack.Screen name="Szukaj" component={HomeScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

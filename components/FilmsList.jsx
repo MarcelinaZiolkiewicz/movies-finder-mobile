@@ -3,10 +3,10 @@ import {StyleSheet,Text, View} from "react-native";
 import {Button} from "react-native";
 import SingleMovie from "./SingleMovie";
 
-const MoviesList = ({movies}) => {
+const MoviesList = ({movies, goToMovie}) => {
 
     const moviesElements = movies.map(item => {
-        return <SingleMovie key={item.id} movie={item}/>
+        return <SingleMovie key={item.id} movie={item} goToMovie={goToMovie}/>
     })
 
     return (
@@ -15,7 +15,7 @@ const MoviesList = ({movies}) => {
             {moviesElements}
 
             <View style={styles.loadMore}>
-                <Button title="Wczytaj więcej" color="#686de0" onPress={() => alert('Dwa')}/>
+                <Button title="Wczytaj więcej" color="#686de0" onPress={() => console.log('asd')}/>
             </View>
 
         </View>

@@ -3,7 +3,7 @@ import {ActivityIndicator, StyleSheet, Text, View} from "react-native";
 import {Button, Card} from "react-native-elements";
 
 
-const SingleMovie = ({movie}) => {
+const SingleMovie = ({movie, goToMovie}) => {
 
     const imagePath = `https://image.tmdb.org/t/p/original${movie.poster_path}`
 
@@ -14,7 +14,7 @@ const SingleMovie = ({movie}) => {
             <Card.Title style={styles.title}>{movie.title}</Card.Title>
             <Text style={{textAlign: 'center'}}>Popularność: {movie.popularity}</Text>
             <Text style={styles.text}>Liczba głosów: {movie.vote_count}</Text>
-            <Button title="Zobacz szczegóły" type="clear" onPress={() => console.log(movie.id)}/>
+            <Button title="Zobacz szczegóły" type="clear" onPress={() => goToMovie(movie.id)}/>
         </Card>
     );
 }
