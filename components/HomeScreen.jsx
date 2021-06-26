@@ -4,10 +4,12 @@ import {Input} from "react-native-elements";
 
 
 import axios from "axios";
+import FilmsList from "./FilmsList";
 
 const HomeScreen = ({navigation}) => {
 
     const [loadedData, setLoadedData] = useState(null);
+    const [moviesList, setMoviesList] = useState(null);
     const [filmToFind, setFilmToFind] = useState('');
     const [language, setLanguage] = useState('pl-PL');
     const [movieId, setMovieId] = useState( null);
@@ -26,14 +28,17 @@ const HomeScreen = ({navigation}) => {
     const searchFilm = () => {
         if (filmToFind) {
             axios.get(SEARCH_URL)
-                .then((res) => setLoadedData(res.data))
+                .then((res) => {
+                    setLoadedData(res.data);
+                    setMoviesList(res.data.results);
+                })
                 .catch((err) => console.error(err))
                 .finally(() => setLoading(false))
         }
     }
 
     const handleSubmit = () => {
-        console.log(filmToFind);
+        console.log(loadedData);
     }
 
     useEffect(() => {
@@ -52,11 +57,13 @@ const HomeScreen = ({navigation}) => {
                         placeholder="Szukaj filmu"
                         onChangeText={value => {
                             setFilmToFind(value);
-                            searchFilm();
                         }}
                         onSubmitEditing={searchFilm}
                     />
                 </View>
+
+                {!isLoading && <FilmsList movies={moviesList}/>}
+
             </ScrollView>
 
             {/*element z listą filmów -> w propsach będzie obiekt pobrany z api*/}

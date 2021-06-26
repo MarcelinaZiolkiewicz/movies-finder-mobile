@@ -1,10 +1,18 @@
 import React from 'react';
 import {StyleSheet,Text, View} from "react-native";
 
-const MoviesList = () => {
+import SingleMovie from "./SingleMovie";
+
+const MoviesList = ({movies}) => {
+
+    const moviesElements = movies.map(item => {
+        return <SingleMovie key={item.id} movie={item}/>
+    })
+
     return (
         <View style={styles.container}>
-            <Text>Movies list</Text>
+            <Text>Wyświetlono filmów: {movies.length}</Text>
+            {moviesElements}
         </View>
     );
 }

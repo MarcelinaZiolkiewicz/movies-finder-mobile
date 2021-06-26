@@ -1,10 +1,13 @@
 import React from 'react';
 import {StyleSheet,Text, View} from "react-native";
 
-const SingleMovie = () => {
+const SingleMovie = ({movie}) => {
+
+    console.log(movie.title);
+
     return (
         <View style={styles.container}>
-            <Text>Single Movie</Text>
+            <Text>{movie.title}</Text>
         </View>
     );
 }
