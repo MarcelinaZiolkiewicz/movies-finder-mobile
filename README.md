@@ -1,10 +1,10 @@
 # Movie Finder - Mobile
 
-##Działająca wersja
+## Działająca wersja
 
 Gotowy plik .apk można pobrać [tutaj](https://drive.google.com/drive/u/0/folders/1Bnhw2lKKoKmYVnfu0cgEFO0aCtQpsmbx)
 
-##Opis
+## Opis
 
 Movie Finder to praktycznie ta sama aplikacja co [ta](https://github.com/MichalZiolkiewicz/filmsfinder) tylko zrobiona w formie aplikacji mobilnej za pomocą React Native. Możemy tutaj wyszukiwać filmy i sprawdzać ich szczegóły takie jak kraje produkcji, czy opis filmu. 
 
