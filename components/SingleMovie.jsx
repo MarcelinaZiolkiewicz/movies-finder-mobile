@@ -14,7 +14,7 @@ const SingleMovie = ({movie, goToMovie}) => {
             <Card.Title style={styles.title}>{movie.title}</Card.Title>
             <Text style={{textAlign: 'center'}}>Popularność: {movie.popularity}</Text>
             <Text style={styles.text}>Liczba głosów: {movie.vote_count}</Text>
-            <Button title="Zobacz szczegóły" type="clear" onPress={() => goToMovie(movie.id)}/>
+            <Button title="Zobacz szczegóły" type="clear" onPress={() => goToMovie(movie.id, movie.title)}/>
         </Card>
     );
 }

@@ -5,6 +5,7 @@ import { Input } from "react-native-elements";
 import axios from "axios";
 
 import FilmsList from "./FilmsList";
+import Label from "./Label";
 
 const HomeScreen = ({navigation}) => {
 
@@ -37,8 +38,8 @@ const HomeScreen = ({navigation}) => {
         }
     }
 
-    const goToMoviePage = id => {
-        navigation.navigate('Film', {id: id})
+    const goToMoviePage = (id, title) => {
+        navigation.navigate('Film', {id: id, name: title})
     }
 
     useEffect(() => {
@@ -48,28 +49,20 @@ const HomeScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
 
-            {isLoading ?
-                <Text style={styles.headerText}>
-                    Znajdź film w bazie ponad 662 588 filmów!
-                </Text>
-                :
-                <Text style={styles.headerText}>
-                    Znaleziono {loadedData.total_results} wyników dla hasła: {filmToFind}
-                </Text>
-            }
-
-            <View style={styles.inputBox}>
-                <Input
-                    ref={input}
-                    placeholder="Szukaj filmu"
-                    onChangeText={value => {
-                        setFilmToFind(value);
-                    }}
-                    onSubmitEditing={searchFilm}
-                />
-            </View>
-
             <ScrollView>
+
+                <Label isLoading={isLoading} filmToFind={filmToFind} results={loadedData}/>
+
+                <View style={styles.inputBox}>
+                    <Input
+                        ref={input}
+                        placeholder="Szukaj filmu"
+                        onChangeText={value => {
+                            setFilmToFind(value);
+                        }}
+                        onSubmitEditing={searchFilm}
+                    />
+                </View>
 
                 {!isLoading &&
                     <FilmsList
@@ -94,9 +87,6 @@ const styles = StyleSheet.create({
     },
     inputBox: {
         flexDirection: 'row',
-        padding: 10
-    },
-    headerText: {
         padding: 10
     }
 });

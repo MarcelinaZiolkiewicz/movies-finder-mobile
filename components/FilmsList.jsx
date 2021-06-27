@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet,Text, View} from "react-native";
-import {Button} from "react-native-elements";
+import {StyleSheet, Text, View} from "react-native";
+
 import SingleMovie from "./SingleMovie";
+import PaginationButtons from "./PaginatioButtons";
 
 const MoviesList = ({movies, goToMovie, nextPage, previousPage, pages}) => {
 
@@ -11,13 +12,16 @@ const MoviesList = ({movies, goToMovie, nextPage, previousPage, pages}) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>Wyświetlono filmów: {movies.length}</Text>
+            <Text style={styles.label}>Filmów na stronie: {movies.length}</Text>
+
             {moviesElements}
 
-            <View style={styles.loadMore}>
-                <Button title="" type="solid"  icon={{name: "arrow-back", size: 30}} onPress={() => previousPage()} disabled={pages[1] === 1 || pages[0] === 1}/>
-                <Button title="" type="solid" icon={{name: "arrow-forward", size: 30}} onPress={() => nextPage()} disabled={pages[0] === pages[1]}/>
-            </View>
+            {movies.length > 0 &&
+                <PaginationButtons
+                    previousPage={previousPage}
+                    nextPage={nextPage}
+                    pages={pages}
+                />}
 
         </View>
     );
@@ -29,17 +33,10 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
     },
-    loadMore: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: 300,
-        paddingTop: 20,
-        paddingBottom: 20
-    },
     label: {
-        width: 300
+        width: '100%',
+        textAlign: 'center'
     }
-
 });
 
 export default MoviesList;

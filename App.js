@@ -12,8 +12,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Szukaj">
-        <Stack.Screen name="Film" component={SingleMoviePage}/>
-        <Stack.Screen name="Szukaj" component={HomeScreen}/>
+        <Stack.Screen
+            name="Film"
+            component={SingleMoviePage}
+            options={({route}) => ({title: route.params.name})}
+        />
+        <Stack.Screen
+            name="Szukaj"
+            component={HomeScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
