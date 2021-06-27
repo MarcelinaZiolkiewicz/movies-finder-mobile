@@ -1,5 +1,5 @@
-import React, { createRef, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React, {createRef, useEffect, useRef, useState} from 'react';
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Input } from "react-native-elements";
 
 import axios from "axios";
@@ -20,6 +20,7 @@ const HomeScreen = ({navigation}) => {
     const SEARCH_URL = (page) => `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=${language}&query=${filmToFind}&page=${page}&include_adult=false`;
 
     const input = createRef();
+    const scrollView = useRef();
 
     const getData = page => {
         axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=${language}&query=${filmToFind}&page=${page}&include_adult=false`)
@@ -49,7 +50,7 @@ const HomeScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
 
-            <ScrollView>
+            <ScrollView ref={scrollView}>
 
                 <Label isLoading={isLoading} filmToFind={filmToFind} results={loadedData}/>
 
@@ -69,7 +70,10 @@ const HomeScreen = ({navigation}) => {
                         movies={moviesList}
                         goToMovie={goToMoviePage}
                         previousPage={() => getData(loadedData.page - 1)}
-                        nextPage={() => getData(loadedData.page + 1)}
+                        nextPage={() => {
+                            scrollView.current?.scrollTo({y: 0, animated: true});
+                            getData(loadedData.page + 1)
+                        }}
                         pages={pages}
                     />}
 
