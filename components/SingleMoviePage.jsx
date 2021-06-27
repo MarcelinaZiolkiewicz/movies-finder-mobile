@@ -6,6 +6,8 @@ import axios from "axios";
 import {Image} from "react-native-elements";
 import MovieDetails from "./MovieDetails";
 
+import noImage from '../assets/noImage.png'
+
 const SingleMoviePage = ({ route }) => {
 
     const { id } = route.params;
@@ -36,9 +38,12 @@ const SingleMoviePage = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            {!isLoading && <View>
-                 <Image source={{uri: backgroundPath()}} style={styles.background} resizeMode="cover" />
+            {!isLoading && <View style={styles.box}>
+
                  <ScrollView style={styles.wrapper}>
+
+                     <Image source={movie.backdrop_path != null ? {uri: backgroundPath()} : noImage} containerStyle={styles.background} resizeMode="cover" />
+
                      <View>
                          <Text style={styles.title}>{movie.title} | {releaseDate()}</Text>
                      </View>
@@ -46,7 +51,7 @@ const SingleMoviePage = ({ route }) => {
                      <MovieDetails genres={movie.genres} prodCountries={movie.production_countries} rate={movie.vote_average}/>
 
                      <View>
-                         <Text style={{padding: 10, fontSize: 18}}> {movie.overview} </Text>
+                         <Text style={{padding: 10, fontSize: 18}}> {movie.overview ? movie.overview : 'Brak opisu' } </Text>
                      </View>
                  </ScrollView>
             </View>}
@@ -62,16 +67,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     background: {
-        flex: 0.4,
+        height: 300
     },
     wrapper: {
         flex: 2,
         backgroundColor: '#ddd'
     },
     title: {
+        flex: 1,
         padding: 20,
         fontWeight: 'bold',
-        fontSize: 26
+        fontSize: 26,
+    },
+    box: {
+        flex: 1,
+        width: '100%'
     }
 });
 

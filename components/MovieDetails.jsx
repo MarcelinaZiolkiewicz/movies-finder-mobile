@@ -15,14 +15,14 @@ const MovieDetails = ({ genres, prodCountries, rate }) => {
         <View style={styles.container}>
             <View style={styles.box}>
                 <Text style={styles.text}>Kategorie: </Text>
-                {genre}
+                {genres.length > 0 ? genre : <Text style={styles.text}>Brak kategorii</Text>}
             </View>
             <View style={styles.box}>
                 <Text style={styles.text}>Kraje produkcji: </Text>
-                {countries}
+                {prodCountries > 0 ? countries : <Text style={styles.text}>brak krajów produkcji</Text>}
             </View>
             <View style={styles.box}>
-                <Text style={{fontSize: 16, fontWeight: 'bold', paddingBottom: 5}}>Ocena: {rate}</Text>
+                <Text style={{fontSize: 16, fontWeight: 'bold', paddingBottom: 5}}>Ocena: {rate ? rate : 'brak oceny'}</Text>
             </View>
         </View>
     );
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     },
     box: {
         flexDirection: 'row',
+        flexWrap: 'wrap',
         paddingLeft: 10,
         paddingTop: 5,
     },

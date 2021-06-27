@@ -17,3 +17,4 @@ Do stworzenia aplikacji zdecydowałem się wykorzystać gotowe komponenty i paki
 - [React Native Elements](https://reactnativeelements.com)
 - [React Navigation](https://reactnavigation.org)
 - [Expo.io](https://expo.io)
+

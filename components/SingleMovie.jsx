@@ -2,14 +2,16 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, Text } from "react-native";
 import { Button, Card } from "react-native-elements";
 
+import noImage from "../assets/noImage.png";
 
 const SingleMovie = ({movie, goToMovie}) => {
 
     const imagePath = `https://image.tmdb.org/t/p/original${movie.poster_path}`
 
     return (
+
         <Card containerStyle={styles.wrapper}>
-            <Card.Image source={{uri: imagePath}} resizeMode="contain" style={styles.image} PlaceholderContent={<ActivityIndicator/>}/>
+            <Card.Image source={movie.poster_path != null ? {uri: imagePath} : noImage} resizeMode="contain" style={styles.image} PlaceholderContent={<ActivityIndicator/>}/>
             <Card.Divider/>
             <Card.Title style={styles.title}>{movie.title}</Card.Title>
             <Text style={{textAlign: 'center'}}>Popularność: {movie.popularity}</Text>
