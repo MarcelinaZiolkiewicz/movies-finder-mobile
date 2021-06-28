@@ -6,6 +6,7 @@ import axios from "axios";
 
 import FilmsList from "./FilmsList";
 import Label from "./Label";
+import Horizontal from "./Horizontal";
 
 const HomeScreen = ({navigation}) => {
 
@@ -17,7 +18,9 @@ const HomeScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(true);
 
     const API_KEY = '6867970f578bc54a2df62f33811ee300';
-    const SEARCH_URL = (page) => `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=${language}&query=${filmToFind}&page=${page}&include_adult=false`;
+    const TRENDING = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=${language}&sort_by=popularity.desc`
+    const DISCOVER = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=${language}&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
+
 
     const input = createRef();
     const scrollView = useRef();
@@ -43,9 +46,6 @@ const HomeScreen = ({navigation}) => {
         navigation.navigate('Film', {id: id, name: title})
     }
 
-    useEffect(() => {
-        input.current.focus();
-    }, [])
 
     return (
         <View style={styles.container}>
@@ -64,6 +64,13 @@ const HomeScreen = ({navigation}) => {
                         onSubmitEditing={searchFilm}
                     />
                 </View>
+
+                {isLoading &&
+                    <View>
+                        <Horizontal goToMovie={goToMoviePage} label="Popularne teraz" URL={TRENDING}/>
+                        <Horizontal goToMovie={goToMoviePage} label="Odkrywaj" URL={DISCOVER}/>
+                    </View>
+                }
 
                 {!isLoading &&
                     <FilmsList
