@@ -1,6 +1,6 @@
 import React, {createRef, useEffect, useRef, useState} from 'react';
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Input } from "react-native-elements";
+import { Input, Button } from "react-native-elements";
 
 import axios from "axios";
 
@@ -46,6 +46,25 @@ const HomeScreen = ({navigation}) => {
         navigation.navigate('Film', {id: id, name: title})
     }
 
+    const clearLoadedData = () => {
+        setFilmToFind('');
+        setLoadedData(null);
+        setMoviesList(null);
+        setLoading(true);
+    }
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Button
+                    icon={{name: "home", size: 25}}
+                    onPress={() => clearLoadedData()}
+                    color="#ddd"
+                    type="outline"
+                />
+            )
+        }, [navigation]);
+    })
 
     return (
         <View style={styles.container}>
@@ -58,6 +77,7 @@ const HomeScreen = ({navigation}) => {
                     <Input
                         ref={input}
                         placeholder="Szukaj filmu"
+                        value={filmToFind}
                         onChangeText={value => {
                             setFilmToFind(value);
                         }}
@@ -76,7 +96,7 @@ const HomeScreen = ({navigation}) => {
                     <FilmsList
                         movies={moviesList}
                         goToMovie={goToMoviePage}
-                        previousPage={() => getData(loadedData.page - 1)}
+                        previousPage={() => {getData(loadedData.page - 1)}}
                         nextPage={() => {
                             scrollView.current?.scrollTo({y: 0, animated: true});
                             getData(loadedData.page + 1)
